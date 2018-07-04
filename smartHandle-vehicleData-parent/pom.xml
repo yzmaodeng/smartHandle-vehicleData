@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.1.RELEASE</version>
+		<relativePath/>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+    <groupId>com.xinghe.xbx</groupId>
+    <artifactId>smartHandle-vehicleData-parent</artifactId>
+    <name>smartHandle-vehicleData-parent</name>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+    	<module>../smartHandle-vehicleData-core</module>
+        <module>../smartHandle-vehicleData-service</module>
+		<module>../smartHandle-vehicleData-common</module>
+		<module>../smartHandle-vehicleData-boot</module> 
+    </modules>
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <apache.commons.collections>4.0</apache.commons.collections>
+        <maven.compiler.plugin>3.1</maven.compiler.plugin>
+        <!-- <maven.compiler.plugin>2.3.2</maven.compiler.plugin> -->
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.war.plugin>2.4</maven.war.plugin>
+        <maven.surefire.plugin>2.16</maven.surefire.plugin>
+        <maven.clean.plugin>2.5</maven.clean.plugin>
+        <maven.deloy.plugin>2.8.1</maven.deloy.plugin>
+        <maven-source-plugin>2.2.1</maven-source-plugin>
+        <maven-resources-plugin>2.6</maven-resources-plugin>
+        <servlet.api.version>3.1</servlet.api.version>
+        <jetty.version>9.2.3.v20140905</jetty.version>
+        <jedis.version>2.8.0</jedis.version>   
+        <mysql.java.version>5.1.29</mysql.java.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+        	
+        </dependencies>
+    </dependencyManagement>
+
+    <developers>
+    </developers>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-maven-plugin</artifactId>
+                    <configuration>
+                        <webAppConfig>
+                            <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                        </webAppConfig>
+                        <httpConnector>
+                            <port>8585</port>
+                        </httpConnector>
+                    </configuration>
+                    <version>${jetty.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin}</version>
+                    <configuration>
+                    <!--
+                        <source>1.7</source>
+                        <target>1.7</target>
+                     -->
+                        <source>${maven.compiler.target}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.plugin}</version>
+                    <configuration>
+                        <skipTests>true</skipTests>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven.clean.plugin}</version>
+                    <configuration>
+                        <filesets>
+                            <fileset>
+                                <directory>${basedir}/src/main/webapp/WEB-INF/classes</directory>
+                            </fileset>
+                            <fileset>
+                                <directory>${basedir}/src/main/webapp/WEB-INF/lib</directory>
+                            </fileset>
+                        </filesets>
+                    </configuration>
+                </plugin>
+                
+                <plugin>
+	            	<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.1</version>
+					<!--  <version>${maven.deloy.plugin}</version>-->
+				</plugin>
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin}</version>
+					<configuration>
+						<attach>true</attach>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>compile</phase>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				
+				<plugin>
+	                <groupId>org.apache.maven.plugins</groupId>
+	                <artifactId>maven-resources-plugin</artifactId>
+	                <version>${maven-resources-plugin}</version>
+	                <configuration>
+	                    <encoding>UTF-8</encoding>
+	                </configuration>
+	            </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+	<repositories>
+		<repository>
+			<id>snapshots-nexus</id>
+			<url>http://10.11.17.11:8080/nexus-2.1.2/content/repositories/snapshots</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>Nexus</id>
+			<name>Nexus Public Repository</name>
+			<url>http://10.11.17.11:8080/nexus-2.1.2/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>sohu.nexus</id>
+			<url>http://10.11.17.11:8080/nexus-2.1.2/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>Nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://10.11.17.11:8080/nexus-2.1.2/content/repositories/releases</url>
+		</repository>
+		<repository>
+			<id>Nexus-3rd</id>
+			<name>Nexus local Repository</name>
+			<url>http://10.11.17.11:8080/nexus-2.1.2/content/repositories/3rdparty</url>
+		</repository>
+		<repository>
+			<id>Nexus-snapshot</id>
+			<name>Nexus local snapshot</name>
+			<url>http://10.11.17.11:8080/nexus-2.1.2/content/repositories/snapshots</url>
+		</repository>
+	</repositories>
+	<!-- 
+	<profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <filters>
+                    <filter>${project.basedir}/src/main/swap/local.properties</filter>
+                </filters>
+            </build>
+        </profile>
+        <profile>
+            <id>online</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <filters>
+                    <filter>${project.basedir}/src/main/swap/online.properties</filter>
+                </filters>
+            </build>
+        </profile>
+    </profiles>
+     -->
+</project>
