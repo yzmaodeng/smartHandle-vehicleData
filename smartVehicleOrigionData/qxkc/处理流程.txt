@@ -1,0 +1,292 @@
+
+
+
+
+0.
+字典表
+厂家表
+品牌表
+Model表
+Detail表
+Engine表
+
+从正式库里面将表格备份出来
+
+
+
+2.程序标准化
+
+update cerTableQXKC set  emission_standard='国Ⅴ' where  emission_standard='GB18352.5-2013';
+update cerTableQXKC set  emission_standard='国Ⅴ' where  emission_standard='GB3847-2005,GB17691-2005第五阶段';
+
+
+2.其他的压缩字段的检查
+
+SELECT  distinct(gb_code) from  cerTableQXKC;
+
+SELECT  distinct(power_max) from  cerTableQXKC;
+
+
+SELECT  distinct(ex_factory_time) from  cerTableQXKC;
+
+SELECT  distinct(weight_curb) from  cerTableQXKC;
+
+
+SELECT  distinct(vehicle_length) from  cerTableQXKC;
+SELECT  distinct(vehicle_width) from  cerTableQXKC;
+SELECT  distinct(vehicle_height) from  cerTableQXKC;
+SELECT  distinct(container_length) from  cerTableQXKC;
+
+SELECT  distinct(container_width) from  cerTableQXKC;
+
+
+SELECT  distinct(container_height) from  cerTableQXKC;
+
+
+SELECT  distinct(drive_form) from  cerTableQXKC;
+
+SELECT  distinct(wheelbase) from  cerTableQXKC;
+
+
+
+
+新增数据第474条catarc_card_id是279908的与老的数据库里面的model_ID是：：10271166和10296112和重
+
+
+SELECT * from certificate_qxkc where  catarc_card_id=279908
+
+
+5.检查其他的压缩的字段
+
+
+SELECT  distinct(gb_code) from  cerTableQXKC
+
+SELECT  distinct(power_max) from  cerTableQXKC
+
+
+SELECT  distinct(ex_factory_time) from  cerTableQXKC
+
+SELECT  distinct(weight_curb) from  cerTableQXKC
+
+
+SELECT  distinct(vehicle_length) from  cerTableQXKC
+SELECT  distinct(vehicle_width) from  cerTableQXKC
+SELECT  distinct(vehicle_height) from  cerTableQXKC
+SELECT  distinct(container_length) from  cerTableQXKC
+
+SELECT  distinct(container_width) from  cerTableQXKC
+
+
+SELECT  distinct(container_height) from  cerTableQXKC
+
+
+SELECT  distinct(drive_form) from  cerTableQXKC
+
+SELECT  distinct(wheelbase) from  cerTable;
+
+
+4.检查结果
+
+(select model_id xbx_seq_id,gb_code,e_type engine_type,emission_standard_id emission_standard,power_max,displacement_ML displacement_Ml,vehicle_length,vehicle_width,vehicle_height,container_length,
+container_width,container_height,weight_curb,ex_factory_time,drive_form_id drive_form,wheelbase,capacity_rated,catarc_card_id,catarc_card_ref_ids from vehicle_model m left join vehicle_detail d on
+m.model_id=d.m_id left join engine_info e on m.model_id=e.m_id where m.status=0 and d.status=0 and e.status=0 and model_id in(10271166,10296112))
+			 
+union
+
+(select xbx_seq_id ,gb_code,engine_type , (select id from dict_base_info where name=emission_standard and status=0 and type=33 )  emission_standard
+,power_max ,displacement_Ml ,vehicle_length ,vehicle_width ,vehicle_height ,container_length ,container_width ,container_height ,weight_curb ,ex_factory_time ,
+(select id from dict_base_info where name=drive_form and status=0 and type=26 ) drive_form ,wheelbase,
+if(capacity_rated = 'no','',capacity_rated)capacity_rated,catarc_card_id,catarc_card_ref_ids from certificate_qxkc  where catarc_card_id=279908)
+
+
+
+5.将正式库整体备份（合格证和model表再单独备份）
+
+6.正式库的合格证的数据导入到测试库
+
+7.合并合格证的数据（注意添加modelIDs字段，合并之前将处理的结果都放到测试库里面一份-）
+
+select count(*) from certificate_qxkc_copy 18067
+
+select count(*) from certificate_qxkc  4925
+
+insert into commercail_zl.certificate_qxkc_copy 
+	( mfgr_name_full, xbx_seq_id, vehicle_category, vehicle_category_certificate, brand_name, gb_code, 
+	chassis_acm_model, 
+	engine_type, 
+	fuel_type, 
+	emission_standard, 
+	displacement_ML, 
+	power_max, 
+	wheelspan_front, 
+	wheelspan_rear, 
+	tyre_specification_drive, 
+	spring_number, 
+	wheelbase, 
+	axle_load, 
+	axle_num, 
+	vehicle_length, 
+	vehicle_width, 
+	vehicle_height, 
+	container_length, 
+	container_width, 
+	container_height, 
+	weight_total, 
+	weight_rated_load, 
+	weight_curb, 
+	coefficient, 
+	tow_weight, 
+	capacity_rated, 
+	weight_semitrailer, 
+	passenger_num_max, 
+	speed_max, 
+	ex_factory_time, 
+	remarks, 
+	fuel_consumption, 
+	gb_code_batch_num, 
+	drive_form, 
+	catarc_card_id, 
+	catarc_card_ref_ids, 
+	CLSBDH, 
+	quantity_section, 
+	cylinder_num, 
+	e_company, 
+	vehicle_category_use, 
+	source_brand, 
+	source_series, 
+	certificate_status, 
+	create_time, 
+	update_time, 
+	status, 
+	modelIDs
+	)
+	select 
+	mfgr_name_full, xbx_seq_id, vehicle_category, vehicle_category_certificate, brand_name, gb_code, 
+	chassis_acm_model, 
+	engine_type, 
+	fuel_type, 
+	emission_standard, 
+	displacement_ML, 
+	power_max, 
+	wheelspan_front, 
+	wheelspan_rear, 
+	tyre_specification_drive, 
+	spring_number, 
+	wheelbase, 
+	axle_load, 
+	axle_num, 
+	vehicle_length, 
+	vehicle_width, 
+	vehicle_height, 
+	container_length, 
+	container_width, 
+	container_height, 
+	weight_total, 
+	weight_rated_load, 
+	weight_curb, 
+	coefficient, 
+	tow_weight, 
+	capacity_rated, 
+	weight_semitrailer, 
+	passenger_num_max, 
+	speed_max, 
+	ex_factory_time, 
+	remarks, 
+	fuel_consumption, 
+	gb_code_batch_num, 
+	drive_form, 
+	catarc_card_id, 
+	catarc_card_ref_ids, 
+	CLSBDH, 
+	quantity_section, 
+	cylinder_num, 
+	e_company, 
+	vehicle_category_use, 
+	source_brand, 
+	source_series, 
+	certificate_status, 
+	create_time, 
+	update_time, 
+	status, 
+	modelIDs
+	 from certificate_qxkc
+
+
+
+select count(*) from certificate_qxkc_copy  22992
+
+
+
+
+
+
+
+8.将正式库的model和合格证都备份
+
+9.合并合格证表
+
+10.测试库测试
+
+11.导入正式库
+
+
+12.导出压缩的数据
+
+select count(*) from certificate_qxkc where  create_time='2018-04-11 13:13:13'  4925
+
+select count(*) from certificate_qxkc where  create_time='2018-04-11 13:13:13' and status!=-1 4007
+
+导出赵凡要做的和老数据库重复的删除
+
+select 	gb_code_fn, xbx_seq_id, mfgr_name_full, vehicle_category, vehicle_category_certificate, brand_name, gb_code, 
+	chassis_acm_model, 
+	engine_type, 
+	fuel_type, 
+	emission_standard, 
+	displacement_ML, 
+	power_max, 
+	wheelspan_front, 
+	wheelspan_rear, 
+	tyre_specification_drive, 
+	spring_number, 
+	wheelbase, 
+	axle_load, 
+	axle_num, 
+	vehicle_length, 
+	vehicle_width, 
+	vehicle_height, 
+	container_length, 
+	container_width, 
+	container_height, 
+	weight_total, 
+	weight_rated_load, 
+	weight_curb, 
+	coefficient, 
+	tow_weight, 
+	capacity_rated, 
+	weight_semitrailer, 
+	passenger_num_max, 
+	speed_max, 
+	ex_factory_time, 
+	remarks, 
+	fuel_consumption, 
+	gb_code_batch_num, 
+	drive_form, 
+	vehicle_category_use, 
+	e_company, 
+	cylinder_num, 
+	catarc_card_id, 
+	catarc_card_ref_ids, 
+	quantity_section, 
+	CLSBDH, 
+	source_brand, 
+	source_series, 
+	modelIDs, 
+	certificate_status, 
+	create_time, 
+	update_time
+	 
+	from certificate_qxkc where  create_time='2018-04-11 13:13:13' and status!=-1
+
+
+

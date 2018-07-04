@@ -1,0 +1,15 @@
+select count(*) from certificate_qxkc where  create_time='2018-04-11 13:13:13' and status=-1 918
+
+
+select * from certificate_qxkc where  create_time='2018-04-11 13:13:13' and status=-1 
+
+
+update certificate_qxkc set status=-2 where  create_time='2018-04-11 13:13:13' and status=-1  918
+
+
+select count(*)  from certificate_qxkc where  create_time='2018-04-11 13:13:13' and status=-2  918
+
+
+select count(*)  from certificate_qxkc where  create_time='2018-04-11 13:13:13' and status!=-2 4007
+
+ update certificate_qxkc set status=-1   where  create_time='2018-04-11 13:13:13' and status!=-2 4007
